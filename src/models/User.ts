@@ -10,7 +10,7 @@ class User{
   name: string;
 
   @Column()
-  email: string;
+  email: string; 
 
   @Column()
   password: string;
@@ -20,6 +20,9 @@ class User{
 
   @UpdateDateColumn()
   update_at: Date;
+
+  @Column()
+  avatar: string;
 
 }
 
