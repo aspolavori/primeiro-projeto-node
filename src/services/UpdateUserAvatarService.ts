@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import path from 'path';
 import fs  from 'fs';
+import AppError from '../errors/AppError';
 
 import uploadConfig from '../config/upload';
 import User from '../models/User';
@@ -15,7 +16,7 @@ class UpdateUserAvatarService{
 
     const user = await userReository.findOne(user_id);
     if(!user){
-      throw new Error('Somente usuários válidos');
+      throw new AppError('Somente usuários válidos', 401);
     }
 
     if(user.avatar){

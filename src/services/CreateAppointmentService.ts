@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository' ;
+import AppError from '../errors/AppError';
 
 interface Request{  
   date: Date;
@@ -16,7 +17,7 @@ class CreateAppointmentService{
     const findAppointmentInSameDate = await appointmentsRepository.findByDate(appointmentDate);
 
     if(findAppointmentInSameDate){
-      throw Error('Hora já cadastrada');
+      throw new AppError('Hora já cadastrada', 400);
     }
 
     const appointmet = appointmentsRepository.create({ provider_id , date : appointmentDate});

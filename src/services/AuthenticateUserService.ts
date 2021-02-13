@@ -2,7 +2,8 @@ import { getRepository } from 'typeorm';
 import User from '../models/User';
 import { sign } from 'jsonwebtoken';
 import {  compare } from 'bcryptjs';
-import authConfig from '../config/auth'
+import authConfig from '../config/auth';
+import AppError from '../errors/AppError';
 import { response } from 'express';
 
 interface Request{
@@ -23,12 +24,12 @@ class AuthenticateUserService{
     });
 
     if(!user){
-      throw new Error('Incorect email/passaword combination.')
+      throw new AppError('Incorect email/passaword combination.', 401);
     }
     const passwordMatchet = await compare(password, user.password);
 
     if(!passwordMatchet){
-      throw new Error('Incorect email/passaword combination.')
+      throw new AppError('Incorect email/passaword combination.',  401)
     }
     
     const { secret, expiresIn } = authConfig.jwt;
